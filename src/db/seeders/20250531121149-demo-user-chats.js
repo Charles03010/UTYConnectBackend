@@ -1,35 +1,73 @@
-'use strict';
+"use strict";
+
+const { v4: uuidv4 } = require("uuid");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    // Ensure user1_id < user2_id to maintain consistency if you have such a rule in service layer
-    await queryInterface.bulkInsert('user_chats', [
-      {
-        id: 1, // Chat between Alice (1) and Bob (2)
-        user1_id: 1,
-        user2_id: 2,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 2, // Chat between Alice (1) and Charlie (3)
-        user1_id: 1,
-        user2_id: 3,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      },
-      {
-        id: 3, // Chat between Bob (2) and Charlie (3)
-        user1_id: 2,
-        user2_id: 3,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }
-    ], {});
+  async up(queryInterface, Sequelize) {
+    const alice = await queryInterface.rawSelect(
+      "users",
+      { where: { username: "alice" }, plain: true },
+      ["id"]
+    );
+    const aliceUserId = alice.id;
+    const bob = await queryInterface.rawSelect(
+      "users",
+      { where: { username: "bob" }, plain: true },
+      ["id"]
+    );
+    const bobUserId = bob.id;
+    const charlie = await queryInterface.rawSelect(
+      "users",
+      { where: { username: "charlie" }, plain: true },
+      ["id"]
+    );
+    const charlieUserId = charlie.id;
+
+    const chat1Id = uuidv4();
+    const chat2Id = uuidv4();
+    const chat3Id = uuidv4();
+
+    const orderUserPair = (uuid1, uuid2) => {
+      return uuid1 < uuid2
+        ? { u1: uuid1, u2: uuid2 }
+        : { u1: uuid2, u2: uuid1 };
+    };
+
+    const chatPair1 = orderUserPair(aliceUserId, bobUserId);
+    const chatPair2 = orderUserPair(aliceUserId, charlieUserId);
+    const chatPair3 = orderUserPair(bobUserId, charlieUserId);
+
+    await queryInterface.bulkInsert(
+      "user_chats",
+      [
+        {
+          id: chat1Id,
+          user1_id: chatPair1.u1,
+          user2_id: chatPair1.u2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: chat2Id,
+          user1_id: chatPair2.u1,
+          user2_id: chatPair2.u2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: chat3Id,
+          user1_id: chatPair3.u1,
+          user2_id: chatPair3.u2,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('user_chats', { id: [1, 2, 3] }, {});
-  }
+  async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete("user_chats", null, {});
+  },
 };

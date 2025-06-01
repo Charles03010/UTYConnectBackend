@@ -1,5 +1,6 @@
 "use strict";
 const bcrypt = require("bcryptjs");
+const { v4: uuidv4 } = require('uuid');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -8,13 +9,17 @@ module.exports = {
     const hashedPassword2 = await bcrypt.hash("anotherpassword", 10);
     const hashedPassword3 = await bcrypt.hash("testpass456", 10);
 
+    const userId1 = uuidv4();
+    const userId2 = uuidv4();
+    const userId3 = uuidv4();
+
     await queryInterface.bulkInsert(
       "users",
       [
         {
-          id: 1,
+          id: userId1,
           name: "Alice Wonderland",
-          username: "alice",
+          username: "alice_seeder",
           email: "alice@example.com",
           password: hashedPassword1,
           bio: "Curiouser and curiouser!",
@@ -23,9 +28,9 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          id: 2,
+          id: userId2,
           name: "Bob The Builder",
-          username: "bob",
+          username: "bob_seeder",
           email: "bob@example.com",
           password: hashedPassword2,
           bio: "Can we fix it? Yes, we can!",
@@ -34,9 +39,9 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
-          id: 3,
+          id: userId3, 
           name: "Charlie Brown",
-          username: "charlie",
+          username: "charlie_seeder",
           email: "charlie@example.com",
           password: hashedPassword3,
           bio: "Good grief!",
@@ -50,6 +55,8 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete("users", { id: [1, 2, 3] }, {});
+    await queryInterface.bulkDelete("users", {
+      username: ["alice_seeder", "bob_seeder", "charlie_seeder"]
+    }, {});
   },
 };

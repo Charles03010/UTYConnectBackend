@@ -1,7 +1,7 @@
 "use strict";
-const { Model } = require("sequelize");
+const { Model, DataTypes } = require("sequelize");
 
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize) => {
   class Post extends Model {
     static associate(models) {
       Post.belongsTo(models.User, {
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
   Post.init(
     {
       user_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
           model: "users",

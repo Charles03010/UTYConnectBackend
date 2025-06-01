@@ -26,7 +26,8 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.0",
     "sequelize": "^6.37.7",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

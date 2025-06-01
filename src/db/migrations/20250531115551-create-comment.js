@@ -4,13 +4,13 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("post_comments", {
       id: {
+        type: Sequelize.UUID, 
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
       },
       post_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID, 
         allowNull: false,
         references: {
           model: "user_posts",
@@ -20,7 +20,7 @@ module.exports = {
         onDelete: "CASCADE",
       },
       user_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID, 
         allowNull: false,
         references: {
           model: "users",
@@ -34,7 +34,7 @@ module.exports = {
         allowNull: false,
       },
       parent_comment_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID, 
         allowNull: true,
         references: {
           model: "post_comments",

@@ -1,21 +1,115 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('user_likes', [
-      { user_id: 1, post_id: 2, createdAt: new Date(), updatedAt: new Date() }, // Alice likes Bob's post
-      { user_id: 1, post_id: 4, createdAt: new Date(), updatedAt: new Date() }, // Alice likes Charlie's post
-      { user_id: 2, post_id: 1, createdAt: new Date(), updatedAt: new Date() }, // Bob likes Alice's first post
-      { user_id: 2, post_id: 3, createdAt: new Date(), updatedAt: new Date() }, // Bob likes Alice's second post
-      { user_id: 3, post_id: 1, createdAt: new Date(), updatedAt: new Date() }, // Charlie likes Alice's first post
-      { user_id: 3, post_id: 5, createdAt: new Date(), updatedAt: new Date() }, // Charlie likes Bob's blueprint post
-    ], {});
+  async up(queryInterface, Sequelize) {
+    const alice = await queryInterface.rawSelect(
+      "users",
+      { where: { username: "alice" }, plain: true },
+      ["id"]
+    );
+    const aliceUserId = alice.id;
+    const bob = await queryInterface.rawSelect(
+      "users",
+      { where: { username: "bob" }, plain: true },
+      ["id"]
+    );
+    const bobUserId = bob.id;
+    const charlie = await queryInterface.rawSelect(
+      "users",
+      { where: { username: "charlie" }, plain: true },
+      ["id"]
+    );
+    const charlieUserId = charlie.id;
+
+    const alicePost = await queryInterface.rawSelect(
+      "user_posts",
+      {
+        where: { caption: "Exploring the rabbit hole. #adventure" },
+        plain: true,
+      },
+      ["id"]
+    );
+    const alicesPost1UUID = alicePost.id;
+    const alicePost1 = await queryInterface.rawSelect(
+      "user_posts",
+      {
+        where: { caption: "Tea party with the Mad Hatter was wild!" },
+        plain: true,
+      },
+      ["id"]
+    );
+    const alicesPost2UUID = alicePost1.id;
+    const bobPost = await queryInterface.rawSelect(
+      "user_posts",
+      {
+        where: { caption: "Just finished building a new birdhouse! 🐦🏠" },
+        plain: true,
+      },
+      ["id"]
+    );
+    const bobsPost1UUID = bobPost.id;
+    const bobPost1 = await queryInterface.rawSelect(
+      "user_posts",
+      {
+        where: { caption: "My latest blueprint. #construction #design" },
+        plain: true,
+      },
+      ["id"]
+    );
+    const bobsPost2UUID = bobPost1.id;
+    const charliePost = await queryInterface.rawSelect(
+      "user_posts",
+      { where: { caption: "Trying to fly a kite again... 🪁" }, plain: true },
+      ["id"]
+    );
+    const charliesPost1UUID = charliePost.id;
+
+    await queryInterface.bulkInsert(
+      "user_likes",
+      [
+        {
+          user_id: aliceUserId,
+          post_id: bobsPost1UUID,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          user_id: aliceUserId,
+          post_id: charliesPost1UUID,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          user_id: bobUserId,
+          post_id: alicesPost1UUID,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          user_id: bobUserId,
+          post_id: alicesPost2UUID,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          user_id: charlieUserId,
+          post_id: alicesPost1UUID,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          user_id: charlieUserId,
+          post_id: bobsPost2UUID,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
-  async down (queryInterface, Sequelize) {
-    // For bulkDelete with multiple conditions, it's simpler to delete all for demo data
-    // or list specific user_id/post_id pairs if needed.
-    await queryInterface.bulkDelete('user_likes', null, {});
-  }
+  async down(queryInterface, Sequelize) {
+    await queryInterface.bulkDelete("user_likes", null, {});
+  },
 };
