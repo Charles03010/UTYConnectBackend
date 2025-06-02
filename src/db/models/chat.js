@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   Chat.init(
     {
       user1_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
           model: "users",
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       user2_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
           model: "users",

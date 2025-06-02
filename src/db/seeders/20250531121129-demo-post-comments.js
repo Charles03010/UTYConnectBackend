@@ -7,52 +7,52 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     const alice = await queryInterface.rawSelect(
       "users",
-      { where: { username: "alice" }, plain: true },
+      { where: { username: "alice_seeder" }, plain: true },
       ["id"]
     );
-    const aliceUserId = alice.id;
+    const aliceUserId = alice;
     const bob = await queryInterface.rawSelect(
       "users",
-      { where: { username: "bob" }, plain: true },
+      { where: { username: "bob_seeder" }, plain: true },
       ["id"]
     );
-    const bobUserId = bob.id;
+    const bobUserId = bob;
     const charlie = await queryInterface.rawSelect(
       "users",
-      { where: { username: "charlie" }, plain: true },
+      { where: { username: "charlie_seeder" }, plain: true },
       ["id"]
     );
-    const charlieUserId = charlie.id;
+    const charlieUserId = charlie;
     const alicePost = await queryInterface.rawSelect(
       "user_posts",
       { where: { caption: "Exploring the rabbit hole. #adventure" }, plain: true },
       ["id"]
     );
-    const alicesPost1UUID = alicePost.id;
+    const alicesPost1UUID = alicePost;
     // const alicePost1 = await queryInterface.rawSelect(
     //   "user_posts",
     //   { where: { caption: "Tea party with the Mad Hatter was wild!" }, plain: true },
     //   ["id"]
     // );
-    // const alicesPost2UUID = alicePost1.id;
+    // const alicesPost2UUID = alicePost1;
     const bobPost = await queryInterface.rawSelect(
       "user_posts",
       { where: { caption: "Just finished building a new birdhouse! 🐦🏠" }, plain: true },
       ["id"]
     );
-    const bobsPost1UUID = bobPost.id;
+    const bobsPost1UUID = bobPost;
     // const bobPost1 = await queryInterface.rawSelect(
     //   "user_posts",
     //   { where: { caption: "My latest blueprint. #construction #design" }, plain: true },
     //   ["id"]
     // );
-    // const bobsPost2UUID = bobPost1.id;
+    // const bobsPost2UUID = bobPost1;
     const charliePost = await queryInterface.rawSelect(
       "user_posts",
       { where: { caption: "Trying to fly a kite again... 🪁" }, plain: true },
       ["id"]
     );
-    const charliesPost1UUID = charliePost.id;
+    const charliesPost1UUID = charliePost;
     const comment1Id = uuidv4(); 
     const comment2Id = uuidv4(); 
     const comment3Id = uuidv4(); 

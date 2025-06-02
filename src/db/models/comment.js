@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
   Comment.init(
     {
       post_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
           model: "user_posts",
@@ -44,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       user_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
           model: "users",
@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       parent_comment_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: true,
         references: {
           model: "post_comments",

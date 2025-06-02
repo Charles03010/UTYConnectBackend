@@ -10,19 +10,19 @@ module.exports = {
       { where: { username: "alice_seeder" }, plain: true },
       ["id"]
     );
-    const aliceUserId = alice.id;
+    const aliceUserId = alice;
     const bob = await queryInterface.rawSelect(
       "users",
       { where: { username: "bob_seeder" }, plain: true },
       ["id"]
     );
-    const bobUserId = bob.id;
+    const bobUserId = bob;
     const charlie = await queryInterface.rawSelect(
       "users",
       { where: { username: "charlie_seeder" }, plain: true },
       ["id"]
     );
-    const charlieUserId = charlie.id;
+    const charlieUserId = charlie;
 
     const post1Id = uuidv4();
     const post2Id = uuidv4();

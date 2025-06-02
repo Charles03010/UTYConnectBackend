@@ -11,22 +11,22 @@ module.exports = {
 
     const alice = await queryInterface.rawSelect(
       "users",
-      { where: { username: "alice" }, plain: true },
+      { where: { username: "alice_seeder" }, plain: true },
       ["id"]
     );
-    const aliceUserId = alice.id;
+    const aliceUserId = alice;
     const bob = await queryInterface.rawSelect(
       "users",
-      { where: { username: "bob" }, plain: true },
+      { where: { username: "bob_seeder" }, plain: true },
       ["id"]
     );
-    const bobUserId = bob.id;
+    const bobUserId = bob;
     const charlie = await queryInterface.rawSelect(
       "users",
-      { where: { username: "charlie" }, plain: true },
+      { where: { username: "charlie_seeder" }, plain: true },
       ["id"]
     );
-    const charlieUserId = charlie.id;
+    const charlieUserId = charlie;
 
     const orderUserPair = (uuid1, uuid2) => {
       if (!uuid1 || !uuid2) {

@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   UserLike.init(
     {
       user_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
         references: {
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       post_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
         references: {
